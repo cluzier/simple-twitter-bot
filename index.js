@@ -1,9 +1,8 @@
-const rwClient =  require('./twitterClient.js');
+const rwClient = require('./twitterClient.js');
 const CronJob = require('cron').CronJob;
 
-
 //can read from this array at random once per day depending on cronjob configuration
-const items = [
+const colors = [
     '#F44336',
     '#FFEBEE',
     '#FFCDD2',
@@ -279,13 +278,14 @@ const items = [
     '#263238',
     '#000000',
     '#FFFFFF',
-  ];
+];
+var color = colors[Math.floor(Math.random()*colors.length)];
 
-const tweet = async() => {
+const tweet = async () => {
     try {
         //select an item at random from array and tweet it here
-        await rwClient.v2.tweet('#F44336');
-    } catch(e) {
+        await rwClient.v2.tweet(color);
+    } catch (e) {
         console.error(e);
     }
 }
@@ -304,7 +304,9 @@ Layout of time for editing timer:
   second ( optional )
 
 */
-const job = new CronJob("* * * * *", () => {
+
+//this will run once a day at 8am
+const job = new CronJob("0 8 * * *", () => {
     //log to console to know it ran or is running
     console.log('cron job starting!');
     //hit the tweet function to tweet something
